@@ -25519,79 +25519,88 @@
 	    IndexLink = _require.IndexLink;
 
 	var Nav = React.createClass({
-			displayName: 'Nav',
+		displayName: 'Nav',
 
-			onSearch: function onSearch(e) {
-					e.preventDefault();
-			},
-			render: function render() {
-					return React.createElement(
-							'div',
-							{ className: 'top-bar' },
+		onSearch: function onSearch(e) {
+			e.preventDefault();
+
+			var location = this.refs.search.value;
+
+			if (location && location.length > 0) {
+				var encodedLocation = encodeURIComponent(location);
+
+				this.refs.search.value = '';
+				window.location.hash = '#/?location=' + encodedLocation;
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'top-bar' },
+				React.createElement(
+					'div',
+					{ className: 'top-bar-left' },
+					React.createElement(
+						'ul',
+						{ className: 'menu' },
+						React.createElement(
+							'li',
+							{ className: 'menu-text' },
+							'React Weather App'
+						),
+						React.createElement(
+							'li',
+							null,
 							React.createElement(
-									'div',
-									{ className: 'top-bar-left' },
-									React.createElement(
-											'ul',
-											{ className: 'menu' },
-											React.createElement(
-													'li',
-													{ className: 'menu-text' },
-													'React Weather App'
-											),
-											React.createElement(
-													'li',
-													null,
-													React.createElement(
-															IndexLink,
-															{ to: '/', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
-															'Get Weather'
-													)
-											),
-											React.createElement(
-													'li',
-													null,
-													React.createElement(
-															Link,
-															{ to: '/about', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
-															'About'
-													)
-											),
-											React.createElement(
-													'li',
-													null,
-													React.createElement(
-															Link,
-															{ to: '/examples', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
-															'Examples'
-													)
-											)
-									)
+								IndexLink,
+								{ to: '/', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
+								'Get Weather'
+							)
+						),
+						React.createElement(
+							'li',
+							null,
+							React.createElement(
+								Link,
+								{ to: '/about', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
+								'About'
+							)
+						),
+						React.createElement(
+							'li',
+							null,
+							React.createElement(
+								Link,
+								{ to: '/examples', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
+								'Examples'
+							)
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'top-bar-right' },
+					React.createElement(
+						'form',
+						{ onSubmit: this.onSearch },
+						React.createElement(
+							'ul',
+							{ className: 'menu' },
+							React.createElement(
+								'li',
+								null,
+								React.createElement('input', { type: 'search', placeholder: 'Search Weather by City', ref: 'search' })
 							),
 							React.createElement(
-									'div',
-									{ className: 'top-bar-right' },
-									React.createElement(
-											'form',
-											{ onSubmit: this.onSearch },
-											React.createElement(
-													'ul',
-													{ className: 'menu' },
-													React.createElement(
-															'li',
-															null,
-															React.createElement('input', { type: 'search', placeholder: 'Search Weather by City' })
-													),
-													React.createElement(
-															'li',
-															null,
-															React.createElement('input', { type: 'submit', className: 'button', value: 'Get Weather' })
-													)
-											)
-									)
+								'li',
+								null,
+								React.createElement('input', { type: 'submit', className: 'button', value: 'Get Weather' })
 							)
-					);
-			}
+						)
+					)
+				)
+			);
+		}
 	});
 
 	module.exports = Nav;
@@ -25621,7 +25630,9 @@
 
 			this.setState({
 				isLoading: true,
-				errorMessage: undefined
+				errorMessage: undefined,
+				location: undefined,
+				temp: undefined
 			});
 
 			openWeatherMap.getTemp(location).then(function (temp) {
@@ -25636,6 +25647,22 @@
 					errorMessage: e.message
 				});
 			});
+		},
+		componentDidMount: function componentDidMount() {
+			var location = this.props.location.query.location;
+
+			if (location && location.length > 0) {
+				this.handleSearch(location);
+				window.location.hash = '#/';
+			}
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+			var location = newProps.location.query.location;
+
+			if (location && location.length > 0) {
+				this.handleSearch(location);
+				window.location.hash = '#/';
+			}
 		},
 		render: function render() {
 			var _state = this.state,
