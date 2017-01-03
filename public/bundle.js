@@ -105,11 +105,13 @@
 
 	var Main = __webpack_require__(229);
 	var Weather = __webpack_require__(231);
-	var About = __webpack_require__(260);
-	var Examples = __webpack_require__(261);
+	var About = __webpack_require__(261);
+	var Examples = __webpack_require__(262);
 
-	__webpack_require__(262);
+	__webpack_require__(263);
 	$(document).foundation();
+
+	__webpack_require__(267);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -25578,7 +25580,7 @@
 													React.createElement(
 															'li',
 															null,
-															React.createElement('input', { type: 'search', placeholder: 'Search Weather' })
+															React.createElement('input', { type: 'search', placeholder: 'Search Weather by City' })
 													),
 													React.createElement(
 															'li',
@@ -25604,7 +25606,7 @@
 	var WeatherForm = __webpack_require__(232);
 	var WeatherMessage = __webpack_require__(233);
 	var openWeatherMap = __webpack_require__(234);
-	var ErrorModal = __webpack_require__(266);
+	var ErrorModal = __webpack_require__(260);
 
 	var Weather = React.createClass({
 		displayName: 'Weather',
@@ -25666,7 +25668,7 @@
 				null,
 				React.createElement(
 					'h1',
-					{ className: 'text-center' },
+					{ className: 'text-center page-title' },
 					'Get Weather'
 				),
 				React.createElement(WeatherForm, { onSearch: this.handleSearch }),
@@ -25706,7 +25708,7 @@
 							React.createElement(
 									'form',
 									{ onSubmit: this.onFormSubmit },
-									React.createElement('input', { type: 'text', ref: 'location' }),
+									React.createElement('input', { type: 'search', ref: 'location', placeholder: 'Search Weather by City' }),
 									React.createElement(
 											'button',
 											{ className: 'button expanded hollow' },
@@ -27264,6 +27266,66 @@
 /* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var React = __webpack_require__(8);
+
+	var ErrorModal = React.createClass({
+		displayName: 'ErrorModal',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				title: 'Error'
+			};
+		},
+		propTypes: {
+			title: React.PropTypes.string,
+			message: React.PropTypes.string.isRequired
+		},
+		componentDidMount: function componentDidMount() {
+			var modal = new Foundation.Reveal($('#error-modal'));
+			modal.open();
+		},
+		render: function render() {
+			var _props = this.props,
+			    title = _props.title,
+			    message = _props.message;
+
+
+			return React.createElement(
+				'div',
+				{ id: 'error-modal', className: 'reveal tiny text-center', 'data-reveal': '' },
+				React.createElement(
+					'h4',
+					null,
+					title
+				),
+				React.createElement(
+					'p',
+					null,
+					message
+				),
+				React.createElement(
+					'p',
+					null,
+					React.createElement(
+						'button',
+						{ className: 'button hollow', 'data-close': '' },
+						'Okay'
+					)
+				)
+			);
+		}
+
+	});
+
+	module.exports = ErrorModal;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var React = __webpack_require__(8);
@@ -27274,7 +27336,7 @@
 					null,
 					React.createElement(
 							"h1",
-							{ className: "text-center" },
+							{ className: "text-center page-title" },
 							"About Component"
 					),
 					React.createElement(
@@ -27317,7 +27379,7 @@
 	module.exports = About;
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27333,7 +27395,7 @@
 					null,
 					React.createElement(
 							'h1',
-							{ className: 'text-center' },
+							{ className: 'text-center page-title' },
 							'Examples'
 					),
 					React.createElement(
@@ -27369,16 +27431,16 @@
 	module.exports = Examples;
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(263);
+	var content = __webpack_require__(264);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(265)(content, {});
+	var update = __webpack_require__(266)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27395,10 +27457,10 @@
 	}
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(264)();
+	exports = module.exports = __webpack_require__(265)();
 	// imports
 
 
@@ -27409,7 +27471,7 @@
 
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/*
@@ -27465,7 +27527,7 @@
 
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -27719,64 +27781,44 @@
 
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
-	var React = __webpack_require__(8);
-
-	var ErrorModal = React.createClass({
-		displayName: 'ErrorModal',
-
-		getDefaultProps: function getDefaultProps() {
-			return {
-				title: 'Error'
-			};
-		},
-		propTypes: {
-			title: React.PropTypes.string,
-			message: React.PropTypes.string.isRequired
-		},
-		componentDidMount: function componentDidMount() {
-			var modal = new Foundation.Reveal($('#error-modal'));
-			modal.open();
-		},
-		render: function render() {
-			var _props = this.props,
-			    title = _props.title,
-			    message = _props.message;
-
-
-			return React.createElement(
-				'div',
-				{ id: 'error-modal', className: 'reveal tiny text-center', 'data-reveal': '' },
-				React.createElement(
-					'h4',
-					null,
-					title
-				),
-				React.createElement(
-					'p',
-					null,
-					message
-				),
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'button',
-						{ className: 'button hollow', 'data-close': '' },
-						'Okay'
-					)
-				)
-			);
+	// load the styles
+	var content = __webpack_require__(268);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(266)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./app.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./app.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
 		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
-	});
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = ErrorModal;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+	exports = module.exports = __webpack_require__(265)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".page-title {\n\tmargin-top: 2.5rem;\n\tmargin-bottom: 2.5rem;\n}\n\ninput[type=search] {\n\tbox-shadow: none;\n}", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);
